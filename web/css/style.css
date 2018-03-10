@@ -1,0 +1,51 @@
+body { 
+    background: #F5F5F5; 
+    font: 18px/1.5 sans-serif; 
+}
+
+.section-list, .sub-section-list {
+    padding-left: 20px;
+}
+
+.section-list {
+    width: 285px;
+}
+
+.sub-section-list {
+    display: none;
+}
+
+.section {
+    list-style-type: none;
+    cursor: default;
+}
+
+.section-title {
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.section-title:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #FFF;
+}
+
+.section-switch {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.section-switch::after {
+    display: inline-block;
+    content: '';
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid;
+    align-self: center;
+}
+
+.expanded.section-switch::after {
+    border-top: 0;
+    border-bottom: 5px solid;
+}

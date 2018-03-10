@@ -2,21 +2,25 @@
 
 {% block body %}
     {% if sectionsContainerArray is not empty %}
-        <ul>
+        <ul class="section-list">
             {% for sectionList in sectionsContainerArray %}
                 {% for section in sectionList %}
-                    <li>
-                        {{ section.name }}
-                        {% if section.subSections is not empty %}
-                            <ul>
+                    {% if section.subSections|length > 0 %}
+                        <li class="section">
+                            <div class="section-switch section-title">{{ section.name }}</div>
+                            <ul class="sub-section-list">
                                 {% for subSection in section.subSections %}
-                                    <li>
+                                    <li class="section section-title">
                                         {{ subSection }}
                                     </li>
                                 {% endfor %}
                             </ul>
-                        {% endif %}
-                    </li>
+                        </li>
+                    {% else %}
+                        <li class="section section-title">
+                            {{ section.name }}
+                        </li>
+                    {% endif %}
                 {% endfor %}
             {% endfor %}
         </ul>
