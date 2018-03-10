@@ -17,17 +17,25 @@ class DefaultController extends Controller
         $page = file_get_contents('https://www.farpost.ru/vladivostok/');
         $crawler = new Crawler($page);
         $sectionsContainerList = $crawler->filter('.first-level');
+        $mainTabs = $crawler->filter('#content > .mainTabs');
 
-        $sectionsContainerArray = $sectionsContainerList->each(function ($sectionsContainer) {
+        $sectionsContainerArray = $sectionsContainerList->each(function ($sectionsContainer) use ($mainTabs) {
             $sectionList = $sectionsContainer->filter('.l1-li');
 
-            return $sectionList->each(function ($section) {
-                $sectionName = $section->filter('a')->text();
+            return $sectionList->each(function ($section) use ($mainTabs) {
+                $sectionLink= $section->filter('a');
                 $sectionArray = [
-                    'name' => $sectionName,
+                    'name' => $sectionLink->text(),
                     'subSections' => []
                 ];
-                $subSectionList = $section->filter('ul > li > a');
+                $sectionHref = $sectionLink->attr('href');
+                $tabSection = $mainTabs->filter(".selector a[href='$sectionHref']");
+                if ($tabSection->count() > 0) {
+                    $tabPath = $tabSection->attr('class');
+                    $subSectionList = $mainTabs->filter(".tab[data-name='$tabPath'] .option");
+                } else {
+                    $subSectionList = $section->filter('ul > li > a');
+                }
 
                 if ($subSectionList->count() > 0) {
                     $sectionArray['subSections'] = $subSectionList->each(function ($subSection) {
