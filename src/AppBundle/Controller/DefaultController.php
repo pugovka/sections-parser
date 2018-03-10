@@ -16,18 +16,18 @@ class DefaultController extends Controller
     {
         $page = file_get_contents('https://www.farpost.ru/vladivostok/');
         $crawler = new Crawler($page);
-        $sectionsContainerList = $crawler->filterXPath('//ul[contains(@class, "first-level")]');
+        $sectionsContainerList = $crawler->filter('.first-level');
 
         $sectionsContainerArray = $sectionsContainerList->each(function ($sectionsContainer) {
-            $sectionList = $sectionsContainer->filterXPath('//li[contains(@class, "l1-li")]');
+            $sectionList = $sectionsContainer->filter('.l1-li');
 
             return $sectionList->each(function ($section) {
-                $sectionName = $section->filterXPath('//a')->text();
+                $sectionName = $section->filter('a')->text();
                 $sectionArray = [
                     'name' => $sectionName,
                     'subSections' => []
                 ];
-                $subSectionList = $section->filterXPath('//ul/li/a');
+                $subSectionList = $section->filter('ul > li > a');
 
                 if ($subSectionList->count() > 0) {
                     $sectionArray['subSections'] = $subSectionList->each(function ($subSection) {
