@@ -2,9 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\DomCrawler\Crawler;
 
 class DefaultController extends Controller
 {
@@ -13,9 +14,33 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
+        $page = file_get_contents('https://www.farpost.ru/vladivostok/');
+        $crawler = new Crawler($page);
+        $sectionsContainerList = $crawler->filterXPath('//ul[contains(@class, "first-level")]');
+
+        $sectionsContainerArray = $sectionsContainerList->each(function ($sectionsContainer) {
+            $sectionList = $sectionsContainer->filterXPath('//li[contains(@class, "l1-li")]');
+
+            return $sectionList->each(function ($section) {
+                $sectionName = $section->filterXPath('//a')->text();
+                $sectionArray = [
+                    'name' => $sectionName,
+                    'subSections' => []
+                ];
+                $subSectionList = $section->filterXPath('//ul/li/a');
+
+                if ($subSectionList->count() > 0) {
+                    $sectionArray['subSections'] = $subSectionList->each(function ($subSection) {
+                        return $subSection->text();
+                    });
+                }
+
+                return $sectionArray;
+            });
+        });
+
         return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+            'sectionsContainerArray' => $sectionsContainerArray,
         ]);
     }
 }
