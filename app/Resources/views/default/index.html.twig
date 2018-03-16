@@ -1,27 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% if sectionsContainerArray is not empty %}
+    {% if sections is not empty %}
         <ul class="section-list">
-            {% for sectionList in sectionsContainerArray %}
-                {% for section in sectionList %}
-                    {% if section.subSections|length > 0 %}
-                        <li class="section">
-                            <div class="section-switch section-title">{{ section.name }}</div>
-                            <ul class="sub-section-list">
-                                {% for subSection in section.subSections %}
-                                    <li class="section section-title">
-                                        {{ subSection }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li class="section section-title">
-                            {{ section.name }}
-                        </li>
-                    {% endif %}
-                {% endfor %}
+            {% for section in sections %}
+                {% if section.subSections|length > 0 %}
+                    <li class="section">
+                        <div class="section-switch section-title">{{ section.name }}</div>
+                        <ul class="sub-section-list">
+                            {% for subSection in section.subSections %}
+                                <li class="section section-title">
+                                    {{ subSection }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="section section-title">
+                        {{ section.name }}
+                    </li>
+                {% endif %}
             {% endfor %}
         </ul>
     {% endif %}
