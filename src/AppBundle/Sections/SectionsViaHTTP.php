@@ -8,6 +8,7 @@ use \GuzzleHttp\Client;
 class SectionsViaHTTP implements SectionsInterface
 {
     const URI = 'https://www.farpost.ru/vladivostok/';
+
     public function getSections()
     {
         $xmlElement = $this->getContent();
