@@ -4,10 +4,12 @@ namespace AppBundle\Sections;
 
 use DOMDocument;
 use \GuzzleHttp\Client;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class SectionsViaHTTP implements SectionsInterface
 {
     const URI = 'https://www.farpost.ru/vladivostok/';
+    const CACHE_EXPIRE_TIME = 30 * 60;
 
     public function getSections()
     {
@@ -72,6 +74,12 @@ class SectionsViaHTTP implements SectionsInterface
 
     private function getContent()
     {
+        $cache = new FilesystemAdapter();
+
+        $latestXMLString = $cache->getItem('latest_XML_string');
+        if ($latestXMLString->isHit()) {
+            return simplexml_load_string($latestXMLString->get());
+        }
         $client = new Client();
         $request = $client->get(self::URI);
         $body = $request->getBody();
@@ -81,6 +89,10 @@ class SectionsViaHTTP implements SectionsInterface
         $document->loadHTML($body);
         libxml_use_internal_errors($internalErrors);
         $xmlString = $document->saveXML();
+
+        $latestXMLString->set($xmlString);
+        $latestXMLString->expiresAfter(self::CACHE_EXPIRE_TIME);
+        $cache->save($latestXMLString);
 
         return simplexml_load_string($xmlString);
     }
