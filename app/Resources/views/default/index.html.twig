@@ -2,25 +2,6 @@
 
 {% block body %}
     {% if sections is not empty %}
-        <ul class="section-list">
-            {% for section in sections %}
-                {% if section.subSections|length > 0 %}
-                    <li class="section">
-                        <div class="section-switch section-title">{{ section.name }}</div>
-                        <ul class="sub-section-list">
-                            {% for subSection in section.subSections %}
-                                <li class="section section-title">
-                                    {{ subSection }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                {% else %}
-                    <li class="section section-title">
-                        {{ section.name }}
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+        <div id="sections" data-sections="{{ sections }}"></div>
     {% endif %}
 {% endblock %}

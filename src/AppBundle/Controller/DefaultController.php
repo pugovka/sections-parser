@@ -21,7 +21,7 @@ class DefaultController extends Controller
     public function indexAction()
     {
         return $this->render('default/index.html.twig', [
-            'sections' => $this->sections->getSections()
+            'sections' => json_encode($this->sections->getSections())
         ]);
     }
 }

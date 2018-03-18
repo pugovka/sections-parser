@@ -21,17 +21,18 @@ class SectionsViaHTTP implements SectionsInterface
         $sectionsContainerXMLArray = $xmlElement
             ->xpath('//table[@id="index-dirs"]//ul[contains(@class, "first-level")]');
         $mainTabs = $this->getFirstOrNull($xmlElement->xpath('//div[@id="content"]/div[contains(@class, "mainTabs")]'));
-        $sectionsContainerArray = [];
+        $sectionsArray = [
+            'name' => 'root',
+            'subSections' => [],
+        ];
 
         if (empty($sectionsContainerXMLArray)) {
-            return [];
+            return $sectionsArray;
         }
+        $sectionsContainerArray = [];
 
         foreach ($sectionsContainerXMLArray as $containerIndex => $sectionsContainer) {
             $sectionXMLArray = $sectionsContainer->xpath('li[@class="l1-li"]');
-            if (empty($sectionXMLArray)) {
-                return [];
-            }
 
             foreach ($sectionXMLArray as $sectionIndex => $section) {
                 $sectionLink = $this->getFirstOrNull($section->xpath('a[@class="l1"]'));
@@ -58,13 +59,17 @@ class SectionsViaHTTP implements SectionsInterface
 
                 if (count($subSectionList) > 0) {
                     foreach ($subSectionList as $subSection) {
-                        $sectionsContainerArray[$containerIndex][$sectionIndex]['subSections'][] = (string)$subSection;
+                        $sectionsContainerArray[$containerIndex][$sectionIndex]['subSections'][] = [
+                            'name' => (string)$subSection
+                        ];
                     }
                 }
             }
         }
 
-        return call_user_func_array('array_merge', $sectionsContainerArray);
+        $sectionsArray['subSections'] = call_user_func_array('array_merge', $sectionsContainerArray);
+
+        return $sectionsArray;
     }
 
     private function getFirstOrNull($object)
