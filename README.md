@@ -4,7 +4,7 @@ Parsing sections from https://www.farpost.ru/vladivostok/
 
 ## Requirements
 
-- PHP v5.5.9 or higher.
+- PHP v7.1 or higher.
 - [Composer](https://getcomposer.org/download)
 
 ## Optional if using [Apache2](https://httpd.apache.org/download.cgi)

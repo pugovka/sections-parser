@@ -89,11 +89,11 @@ class SectionsViaHTTP implements SectionsInterface
         $request = $client->get(self::URI);
         $body = $request->getBody();
 
-        $document = new DOMDocument('1.0', 'utf-8');
+        $document = new DOMDocument('1.0', 'UTF-8');
         $internalErrors = libxml_use_internal_errors(true);
         $document->loadHTML($body);
         libxml_use_internal_errors($internalErrors);
-        $document->encoding = 'utf-8';
+        $document->encoding = 'UTF-8';
         $xmlString = $document->saveXML();
 
         $latestXMLString->set($xmlString);
