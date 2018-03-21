@@ -12,11 +12,18 @@ Parsing sections from https://www.farpost.ru/vladivostok/
 - `a2enmod deflate` enable compression
 - `a2enmod headers` enable cache headers
 - `a2enmod expires` enable expire headers
+- `a2enmod rewrite` enable mapping urls to a filesystem path
 
 ## Usage in development mode
 
 1. `composer install` install dependencies
 2. `php bin/console server:start 127.0.0.1:8000` run dev server
+
+## Usage in development mode with cache and compression
+
+1. `zlib.output_compression = On` set in php.ini
+2. `composer install` install dependencies
+3. `php bin/console server:start 127.0.0.1:8000 --router=app/router.php` run dev server
 
 ## Usage in production mode
 
