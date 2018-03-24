@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Sections\SectionsInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends Controller
@@ -20,8 +21,14 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('default/index.html.twig', [
-            'sections' => json_encode($this->sections->getSections())
-        ]);
+        return $this->render('default/index.html.twig');
+    }
+
+    /**
+     * @Route("/get-sections", name="get sections")
+     */
+    public function getSectionsAction()
+    {
+        return new JsonResponse(json_encode($this->sections->getSections()));
     }
 }

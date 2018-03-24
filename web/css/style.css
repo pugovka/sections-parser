@@ -4,6 +4,7 @@ body {
     font: 18px sans-serif;
 }
 ul {
+    margin: 0;
     padding: 0;
 }
 
@@ -48,8 +49,14 @@ ul {
     border-bottom: 5px solid;
 }
 
+.placeholder {
+    margin: 20px 30px;
+    font-size: 2rem;
+}
+
 @media (min-width: 768px) {
     .section-list {
+        margin-top: 20px;
         width: 285px;
     }
 
@@ -64,5 +71,9 @@ ul {
 
     .section-list, .sub-section-list {
         padding-left: 20px;
+    }
+
+    .placeholder {
+        font-size: 1rem;
     }
 }

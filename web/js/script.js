@@ -1,13 +1,19 @@
 $(function () {
     var $sections = $('#sections');
     if ($sections.length > 0) {
-        var sections = JSON.parse($sections.attr('data-sections'));
-        var html = '<ul class="section-list">' + getSectionHTML(sections, true) + '</ul>';
-        $sections.append(html);
-
-        $('.section-switch').click(function () {
-            $(this).toggleClass('expanded');
-            $(this).next('.sub-section-list').slideToggle();
+        $.ajax({
+            url: '/get-sections',
+            type: 'POST',
+            dataType: 'json',
+            success: function (sectionsData) {
+                var sections = JSON.parse(sectionsData);
+                var html = '<ul class="section-list">' + getSectionHTML(sections, true) + '</ul>';
+                $sections.html(html);
+                $('.section-switch').click(function () {
+                    $(this).toggleClass('expanded');
+                    $(this).next('.sub-section-list').slideToggle();
+                });
+            }
         });
     }
 
