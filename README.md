@@ -12,7 +12,7 @@ Parsing sections from https://www.farpost.ru/vladivostok/
 - `a2enmod deflate` enable compression
 - `a2enmod headers` enable cache headers
 - `a2enmod expires` enable expire headers
-- `a2enmod rewrite` enable mapping urls to a filesystem path
+- `a2enmod rewrite` enable mapping url to a filesystem path
 
 ## Usage in development mode
 

@@ -11,7 +11,7 @@ $(function () {
                 $sections.html(html);
                 $('.section-switch').click(function () {
                     $(this).toggleClass('expanded');
-                    $(this).next('.sub-section-list').slideToggle();
+                    $(this).next('.sub-section-list').stop().slideToggle();
                 });
             }
         });
