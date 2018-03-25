@@ -2,7 +2,7 @@ requirejs.config({
     baseUrl: 'js/lib',
     paths: {
         app: '../app',
-        Sections: '../app/sections'
+        'sections-renderer': '../app/sections-renderer'
     }
 });
 
